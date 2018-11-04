@@ -15,6 +15,10 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
+import LoginCamera from '../components/LoginCamera'
+import SignupCamera from '../components/SignupCamera'
+import FancyLoader from '../components/FancyLoader'
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -117,9 +121,22 @@ const featuredPosts = [
   },
 ];
 
+class LandingPage extends Component {
+  state = {}
 
-function Blog(props) {
-  const { classes } = props;
+  toggleLogin = () => {
+    this.setState(() => {
+      return { showLogin: !this.state.showLogin, showSignup: false }
+    })
+  }
+
+  toggleSignup = () => {
+    this.setState(() => {
+      return { showSignup: !this.state.showSignup, showLogin: false }
+    })
+  }
+  render() {
+    const { classes } = this.props;
   
   return (
     <React.Fragment>
@@ -137,7 +154,7 @@ function Blog(props) {
     >
     Face to Face
     </Typography>
-    <Button variant="outlined" size="small">
+    <Button variant="outlined" size="small" onClick={this.toggleLogin}>
     Log In
     </Button>
     </Toolbar>
@@ -162,25 +179,41 @@ function Blog(props) {
     
     <Grid item md={6}>
     <Card className={classes.signUpCard}>
-    <CardActionArea>
-    <CardMedia
-    component="img"
-    alt="Face Scanning"
-    className={classes.media}
-    height="140"
-    image="https://www.techfunnel.com/wp-content/uploads/2018/03/Facial-Recognition-Technology-Pros-and-Cons.jpg"
-    title="Face Scanning"
-    />
+    <div>
+    { !this.state.showLogin && !this.state.showSignup ? 
+        <CardMedia
+          component="img"
+          alt="Face Scanning"
+          className={classes.media}
+          height="140"
+          image="https://www.techfunnel.com/wp-content/uploads/2018/03/Facial-Recognition-Technology-Pros-and-Cons.jpg"
+          title="Face Scanning"
+          /> : null
+    }
     <CardContent>
-    <Typography gutterBottom variant="h6" component="h2">
-    Complete your signup with a scan of your face.
-     </Typography>
+    { !this.state.showLogin && !this.state.showSignup ? 
+        <Typography gutterBottom variant="h6" component="h2">
+        Complete your signup with a scan of your face.
+        </Typography>
+     : null
+    }
+
+    {this.state.showLogin && <LoginCamera onMatchFound={() => {}} onMatchNotFound={() => {}} />}
+    {this.state.showSignup && (
+      <SignupCamera
+        onSuccess={() => {
+          console.log('Successfully signed up!')
+        }}
+      />
+    )}
     {/* <Typography component="p">
     </Typography>  */}
     </CardContent>
-    </CardActionArea>
+    </div>
     <CardActions>
-    <Button size="medium" color="secondary" variant="outlined" className={classes.signUpButton}>
+    <Button onClick={this.toggleSignup}
+      size="medium" color="secondary" variant="outlined" className={classes.signUpButton}
+    >
     Sign Up With Your Face
     </Button>
     {/* <Button size="small" color="primary">
@@ -257,27 +290,25 @@ function Blog(props) {
 
 
 
-        </Grid>
-        {/* End sidebar */}
-        </Grid>
-        </main>
-        </div>
-        {/* Footer */}
-        {/* <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-        Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-        Something here to give the footer a purpose!
-        </Typography>
-        </footer> */}
-        {/* End footer */}
-        </React.Fragment>
-        );
-      }
-      
-      Blog.propTypes = {
-        classes: PropTypes.object.isRequired,
-      };
-      
-      export default withStyles(styles)(Blog);
+    </Grid>
+    {/* End sidebar */}
+    </Grid>
+    </main>
+    </div>
+    {/* Footer */}
+    {/* <footer className={classes.footer}>
+    <Typography variant="h6" align="center" gutterBottom>
+    Footer
+    </Typography>
+    <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+    Something here to give the footer a purpose!
+    </Typography>
+    </footer> */}
+    {/* End footer */}
+    </React.Fragment>
+    );
+  }
+}
+
+
+export default withStyles(styles)(LandingPage);
