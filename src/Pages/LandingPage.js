@@ -25,7 +25,7 @@ class LandingPage extends Component {
             onMatchFound={conceptID => {
               this.setState({ error: false })
               api.userLogin(conceptID).then(response => {
-                localStorage.set('user', response)
+                localStorage.setItem('user', response)
                 this.props.history.push('/home')
               })
             }}
@@ -46,7 +46,7 @@ class LandingPage extends Component {
                   profileImage: state.profileImage
                 })
                 .then(response => {
-                  localStorage.set('user', response)
+                  localStorage.setItem('user', response)
                   this.props.history.push('/home')
                 })
             }}
