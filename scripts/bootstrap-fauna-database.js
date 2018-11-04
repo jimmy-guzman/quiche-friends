@@ -76,6 +76,12 @@ async function createFaunaDB(key) {
   }));
 
   await client.query(q.Create(q.Ref('indexes'), {
+    name: 'user_by_uuid',
+    source: q.Ref('classes/users'),
+    terms: [{ field: ["data", "uuid"] }]
+  }));
+
+  await client.query(q.Create(q.Ref('indexes'), {
     name: 'comment_by_prop',
     source: q.Ref('classes/comments'),
     terms: [{ field: ["data", "propositionId"] }]
