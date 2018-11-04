@@ -3,13 +3,17 @@
 let currentLocation;
 const IPSTACK_API_KEY = '7e9a9d0b23a735947e564fd07d356803'
 
-async function getLocation() {
-  const response = await fetch(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`)
-  currentLocation = await response.json();
-}
-
-// save location in startup
-getLocation();
+export const getLocation = async () => {
+  if (currentLocation) return currentLocation;
+  try {
+    const response = await fetch(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`)
+    currentLocation = await response.json();
+  } catch (err) {
+    console.error("Geolocating failed.")
+    console.error(err);
+  } 
+  return currentLocation;
+};
 
 export const createProposition = (data) => {
   data.geolocation = currentLocation;
