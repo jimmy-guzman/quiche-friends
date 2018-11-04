@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import LoginCamera from '../components/LoginCamera'
 import SignupCamera from '../components/SignupCamera'
 import FancyLoader from '../components/FancyLoader'
-
+import * as api from '../utils/api'
 class LandingPage extends Component {
   state = {}
 
@@ -29,8 +29,15 @@ class LandingPage extends Component {
         <button onClick={this.toggleSignup}>Sign Up</button>
         {this.state.showSignup && (
           <SignupCamera
-            onSuccess={() => {
-              console.log('Successfully signed up!')
+            onSignupSuccess={state => {
+              api
+                .userCreate({
+                  conceptID: state.conceptID,
+                  profileImage: state.profileImage
+                })
+                .then(response => {
+                  console.log('userLogin good!', response)
+                })
             }}
           />
         )}

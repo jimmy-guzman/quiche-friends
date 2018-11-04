@@ -4,22 +4,24 @@ import axios from 'axios'
 /**
  * Store the user we create or login as here on response.
  */
-let __currentUserData;
+let __currentUserData
 
-let currentLocation;
+let currentLocation
 const IPSTACK_API_KEY = '7e9a9d0b23a735947e564fd07d356803'
 
 export const getLocation = async () => {
-  if (currentLocation) return currentLocation;
+  if (currentLocation) return currentLocation
   try {
-    const response = await fetch(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`)
-    currentLocation = await response.json();
+    const response = await fetch(
+      `http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`
+    )
+    currentLocation = await response.json()
   } catch (err) {
-    console.error("Geolocating failed.")
-    console.error(err);
-  } 
-  return currentLocation;
-};
+    console.error('Geolocating failed.')
+    console.error(err)
+  }
+  return currentLocation
+}
 
 export const cloudinaryUpload = blob => {
   const formData = new FormData()
@@ -74,7 +76,7 @@ export const clarifaiTrain = () => {
 }
 
 export const createProposition = data => {
-  data.geolocation = currentLocation;
+  data.geolocation = currentLocation
   return fetch('/.netlify/functions/proposition-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -83,8 +85,8 @@ export const createProposition = data => {
   })
 }
 
-export const createComment = (data) => {
-  data.geolocation = currentLocation;
+export const createComment = data => {
+  data.geolocation = currentLocation
   return fetch('/.netlify/functions/comment-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -93,8 +95,8 @@ export const createComment = (data) => {
   })
 }
 
-export const createVote = (data) => {
-  data.geolocation = currentLocation;
+export const createVote = data => {
+  data.geolocation = currentLocation
   return fetch('/.netlify/functions/vote-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -103,7 +105,7 @@ export const createVote = (data) => {
   })
 }
 
-export const getProposition = (propositionId) => {
+export const getProposition = propositionId => {
   return fetch('/.netlify/functions/proposition-read', {
     body: JSON.stringify({
       propositionId
@@ -114,7 +116,7 @@ export const getProposition = (propositionId) => {
   })
 }
 
-export const getPropositionComments = (propositionId) => {
+export const getPropositionComments = propositionId => {
   return fetch('/.netlify/functions/proposition-comments', {
     body: JSON.stringify({
       propositionId
@@ -140,32 +142,36 @@ export const searchPropositions = query => {
   })
 }
 
-export const userCreate = (userData) => {
+export const userCreate = userData => {
   return fetch('/.netlify/functions/user-create', {
     body: JSON.stringify(userData),
     method: 'POST'
-  }).then(response => {
-    return response.json()
-  }).then(user => {
-    __currentUserData = user;
-    return __currentUserData;
   })
+    .then(response => {
+      return response.json()
+    })
+    .then(user => {
+      __currentUserData = user
+      return __currentUserData
+    })
 }
 
-export const userLogin = (uuid) => {
+export const userLogin = uuid => {
   return fetch('/.netlify/functions/user-login', {
     body: JSON.stringify({
       uuid
     }),
     method: 'POST'
-  }).then(response => {
-    return response.json()
-  }).then(user => {
-    __currentUserData = user;
-    return __currentUserData;
   })
+    .then(response => {
+      return response.json()
+    })
+    .then(user => {
+      __currentUserData = user
+      return __currentUserData
+    })
 }
 
 export const currentUser = () => {
-  return __currentUserData;
+  return __currentUserData
 }
