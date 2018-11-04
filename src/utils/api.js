@@ -1,6 +1,6 @@
 /* Api methods to call /functions */
 
-export const createProposition = (data) => {
+export const createProposition = data => {
   return fetch('/.netlify/functions/proposition-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -9,7 +9,7 @@ export const createProposition = (data) => {
   })
 }
 
-export const createComment = (data) => {
+export const createComment = data => {
   return fetch('/.netlify/functions/comment-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -18,7 +18,7 @@ export const createComment = (data) => {
   })
 }
 
-export const createVote = (data) => {
+export const createVote = data => {
   return fetch('/.netlify/functions/vote-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -28,18 +28,18 @@ export const createVote = (data) => {
 }
 
 export const getProposition = () => {
-  return fetch('/.netlify/functions/proposition-read').then((response) => {
+  return fetch('/.netlify/functions/proposition-read').then(response => {
     return response.json()
   })
 }
 
 export const allPropositions = () => {
-  return fetch('/.netlify/functions/propositions-all').then((response) => {
+  return fetch('/.netlify/functions/propositions-all').then(response => {
     return response.json()
   })
 }
 
-export const searchPropositions = (query) => {
+export const searchPropositions = query => {
   return fetch('/.netlify/functions/propositions-search', {
     body: JSON.stringify(query),
     method: 'POST'
