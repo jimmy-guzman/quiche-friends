@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+
+import { createProposition } from '../utils/api'
 import { Form } from '../components/Form'
 class CreateProposition extends Component {
   state = {
@@ -15,8 +17,16 @@ class CreateProposition extends Component {
       [name]: event.target.value
     })
   }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    createProposition({ ...this.state })
+  }
+
   render() {
-    return <Form handleChange={this.handleChange} {...this.state} />
+    return (
+      <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit} {...this.state} />
+    )
   }
 }
 

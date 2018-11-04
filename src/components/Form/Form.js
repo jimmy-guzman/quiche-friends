@@ -2,6 +2,7 @@ import React from 'react'
 
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   container: {
@@ -21,8 +22,8 @@ const styles = theme => ({
   }
 })
 
-const Form = ({ classes, handleChange, ...formValues }) => (
-  <form className={classes.container} noValidate autoComplete="off">
+const Form = ({ classes, handleChange, handleSubmit, ...formValues }) => (
+  <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
     <TextField
       label="Title"
       className={classes.textField}
@@ -65,6 +66,9 @@ const Form = ({ classes, handleChange, ...formValues }) => (
       onChange={handleChange('city')}
       margin="normal"
     />
+    <Button size="small" variant="text" type="submit">
+      Create New Proposition
+    </Button>
   </form>
 )
 
