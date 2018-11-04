@@ -1,7 +1,7 @@
 /* Api methods to call /functions */
 
-const create = (data) => {
-  return fetch('/.netlify/functions/todos-create', {
+export const createProposition = (data) => {
+  return fetch('/.netlify/functions/proposition-create', {
     body: JSON.stringify(data),
     method: 'POST'
   }).then(response => {
@@ -9,14 +9,8 @@ const create = (data) => {
   })
 }
 
-const readAll = () => {
-  return fetch('/.netlify/functions/todos-read-all').then((response) => {
-    return response.json()
-  })
-}
-
-const update = (todoId, data) => {
-  return fetch(`/.netlify/functions/todos-update/${todoId}`, {
+export const createComment = (data) => {
+  return fetch('/.netlify/functions/comment-create', {
     body: JSON.stringify(data),
     method: 'POST'
   }).then(response => {
@@ -24,29 +18,32 @@ const update = (todoId, data) => {
   })
 }
 
-const deleteTodo = (todoId) => {
-  return fetch(`/.netlify/functions/todos-delete/${todoId}`, {
-    method: 'POST',
-  }).then(response => {
-    return response.json()
-  })
-}
-
-const batchDeleteTodo = (todoIds) => {
-  return fetch(`/.netlify/functions/todos-delete-batch`, {
-    body: JSON.stringify({
-      ids: todoIds
-    }),
+export const createVote = (data) => {
+  return fetch('/.netlify/functions/vote-create', {
+    body: JSON.stringify(data),
     method: 'POST'
   }).then(response => {
     return response.json()
   })
 }
 
-export default {
-  create: create,
-  readAll: readAll,
-  update: update,
-  delete: deleteTodo,
-  batchDelete: batchDeleteTodo
+export const getProposition = () => {
+  return fetch('/.netlify/functions/proposition-read').then((response) => {
+    return response.json()
+  })
+}
+
+export const allPropositions = () => {
+  return fetch('/.netlify/functions/propositions-all').then((response) => {
+    return response.json()
+  })
+}
+
+export const searchPropositions = (query) => {
+  return fetch('/.netlify/functions/propositions-search', {
+    body: JSON.stringify(query),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
 }

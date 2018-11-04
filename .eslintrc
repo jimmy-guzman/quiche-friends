@@ -8,6 +8,10 @@
   },
   "parser": "babel-eslint",
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "exports": true
   }
 }
