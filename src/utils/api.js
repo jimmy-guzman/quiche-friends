@@ -87,6 +87,17 @@ export const getProposition = (propositionId) => {
   })
 }
 
+export const getPropositionComments = (propositionId) => {
+  return fetch('/.netlify/functions/proposition-comments', {
+    body: JSON.stringify({
+      propositionId
+    }),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export const allPropositions = () => {
   return fetch('/.netlify/functions/propositions-all').then(response => {
     return response.json()
