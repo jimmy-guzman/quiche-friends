@@ -3,6 +3,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 
 const styles = theme => ({
   container: {
@@ -12,17 +14,11 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200
-  },
-  dense: {
-    marginTop: 19
-  },
-  menu: {
-    width: 200
+    width: 250
   }
 })
 
-const Form = ({ classes, handleChange, handleSubmit, ...formValues }) => (
+const Form = ({ classes, handleChange, handleSubmit, handleIsElectionChange, ...formValues }) => (
   <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
     <TextField
       label="Title"
@@ -32,17 +28,14 @@ const Form = ({ classes, handleChange, handleSubmit, ...formValues }) => (
       margin="normal"
     />
     <TextField
+      id="standard-multiline-flexible"
       label="Description"
-      className={classes.textField}
+      multiline
+      rowsMax="4"
+      fullWidth
       value={formValues.description}
       onChange={handleChange('description')}
-      margin="normal"
-    />
-    <TextField
-      label="Poll Options"
       className={classes.textField}
-      value={formValues.pollOptions}
-      onChange={handleChange('pollOptions')}
       margin="normal"
     />
     <TextField
@@ -60,11 +53,36 @@ const Form = ({ classes, handleChange, handleSubmit, ...formValues }) => (
       margin="normal"
     />
     <TextField
-      label="Title"
+      label="City"
       className={classes.textField}
       value={formValues.city}
       onChange={handleChange('city')}
       margin="normal"
+    />
+    <TextField
+      label="County"
+      className={classes.textField}
+      value={formValues.county}
+      onChange={handleChange('county')}
+      margin="normal"
+    />
+    <TextField
+      label="Poll Option One"
+      className={classes.textField}
+      value={formValues.pollOptionOne}
+      onChange={handleChange('pollOptionOne')}
+      margin="normal"
+    />
+    <TextField
+      label="Poll Option Two"
+      className={classes.textField}
+      value={formValues.pollOptionTwo}
+      onChange={handleChange('pollOptionTwo')}
+      margin="normal"
+    />
+    <FormControlLabel
+      control={<Switch checked={formValues.isElection} onChange={handleIsElectionChange} />}
+      label="In Upcoming Election?"
     />
     <Button size="small" variant="text" type="submit">
       Create New Proposition
