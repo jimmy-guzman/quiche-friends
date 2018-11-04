@@ -4,12 +4,9 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.3.2",
-    "lodash": "^4.17.11",
-    "faunadb": "^2.5.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
     "axios": "0.18.0",
     "clarifai": "2.9.0",
+    "dotenv": "6.1.0",
     "faunadb": "^2.5.2",
     "lodash": "4.17.11",
     "querystring": "0.2.0",

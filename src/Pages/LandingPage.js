@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LoginCamera from '../components/LoginCamera'
+import FancyLoader from '../components/FancyLoader'
 
 class LandingPage extends Component {
   state = {}
@@ -13,7 +14,10 @@ class LandingPage extends Component {
     return (
       <div>
         <button onClick={this.toggleLogin}>Log In</button>
-        {this.state.showLogin && <LoginCamera />}
+        {this.state.showLogin && <LoginCamera onMatchFound={() => {}} onMatchNotFound={() => {}} />}
+        <div style={{ height: 50, width: '100%' }}>
+          <FancyLoader num={2} />
+        </div>
       </div>
     )
   }
