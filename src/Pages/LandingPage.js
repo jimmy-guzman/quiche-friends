@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import LoginCamera from '../components/LoginCamera'
 import SignupCamera from '../components/SignupCamera'
-import FancyLoader from '../components/FancyLoader'
-
+import * as api from '../utils/api'
 class LandingPage extends Component {
   state = {}
 
@@ -21,16 +20,35 @@ class LandingPage extends Component {
     return (
       <div>
         <button onClick={this.toggleLogin}>Log In</button>
-        {this.state.showLogin && <LoginCamera onMatchFound={() => {}} onMatchNotFound={() => {}} />}
-        <div style={{ height: 50, width: '100%' }}>
-          <FancyLoader num={2} />
-        </div>
+        {this.state.showLogin && (
+          <LoginCamera
+            onMatchFound={conceptID => {
+              this.setState({ error: false })
+              api.userLogin(conceptID).then(response => {
+                localStorage.set('user', response)
+                this.props.history.push('/home')
+              })
+            }}
+            onMatchNotFound={() => {
+              this.setState({ error: 'Your face was not found!' })
+            }}
+          />
+        )}
+        {this.state.error && <h1>{this.state.error}</h1>}
 
         <button onClick={this.toggleSignup}>Sign Up</button>
         {this.state.showSignup && (
           <SignupCamera
-            onSuccess={() => {
-              console.log('Successfully signed up!')
+            onSignupSuccess={state => {
+              api
+                .userCreate({
+                  conceptID: state.conceptID,
+                  profileImage: state.profileImage
+                })
+                .then(response => {
+                  localStorage.set('user', response)
+                  this.props.history.push('/home')
+                })
             }}
           />
         )}
