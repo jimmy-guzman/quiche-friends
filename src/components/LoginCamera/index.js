@@ -32,6 +32,10 @@ export default class Selfie extends React.Component {
     const { canvas, video } = this
     canvas.getContext('2d').drawImage(video, 0, 0)
     const dataURL = canvas.toDataURL()
+    const base64Image = dataURL.replace(/(.+base64,)?/, '');
+    const result = await api.clarifaiPredict2(base64Image);
+    console.log(`clarify base64 result`);
+
     const blob = dataURLtoBlob(dataURL)
     this.setState({ error: false })
     await api

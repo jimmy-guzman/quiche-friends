@@ -32,6 +32,15 @@ export const cloudinaryUpload = blob => {
   })
 }
 
+export const clarifaiPredict2 = base64Image => {
+  return fetch('/.netlify/functions/clarifai-predict-2', {
+    body: base64Image,
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export const clarifaiPredict = imageURL => {
   return fetch('/.netlify/functions/clarifai-predict', {
     body: imageURL,
