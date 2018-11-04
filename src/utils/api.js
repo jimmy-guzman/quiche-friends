@@ -71,8 +71,13 @@ export const createVote = (data) => {
   })
 }
 
-export const getProposition = () => {
-  return fetch('/.netlify/functions/proposition-read').then(response => {
+export const getProposition = (propositionId) => {
+  return fetch('/.netlify/functions/proposition-read', {
+    body: JSON.stringify({
+      propositionId
+    }),
+    method: 'POST'
+  }).then(response => {
     return response.json()
   })
 }
@@ -86,6 +91,26 @@ export const allPropositions = () => {
 export const searchPropositions = query => {
   return fetch('/.netlify/functions/propositions-search', {
     body: JSON.stringify(query),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export const userCreate = (userData) => {
+  return fetch('/.netlify/functions/user-create', {
+    body: JSON.stringify(userData),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export const userLogin = (userId) => {
+  return fetch('/.netlify/functions/user-login', {
+    body: JSON.stringify({
+      userId
+    }),
     method: 'POST'
   }).then(response => {
     return response.json()
