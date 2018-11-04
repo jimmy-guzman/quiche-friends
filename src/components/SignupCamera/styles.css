@@ -1,0 +1,9 @@
+.selfie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selfie-container video {
+  border: 1px solid gray;
+}

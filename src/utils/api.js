@@ -26,6 +26,33 @@ export const clarifaiPredict = imageURL => {
   })
 }
 
+export const clarifaiAddConcept = conceptID => {
+  return fetch('/.netlify/functions/clarifai-add-concept', {
+    body: conceptID,
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export const clarifaiAddImage = data => {
+  return fetch('/.netlify/functions/clarifai-add-image', {
+    body: JSON.stringify(data),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export const clarifaiTrain = () => {
+  return fetch('/.netlify/functions/clarifai-train', {
+    body: '',
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export const createProposition = data => {
   return fetch('/.netlify/functions/proposition-create', {
     body: JSON.stringify(data),
