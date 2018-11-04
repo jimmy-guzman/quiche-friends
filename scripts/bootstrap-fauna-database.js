@@ -48,7 +48,7 @@ async function createFaunaDB(key) {
   await client.query(q.Create(q.Ref('classes'), { name: 'votes' }));
   await client.query(q.Create(q.Ref('classes'), { name: 'comments' }));
 
-  Create Indexes
+  // Create Indexes
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_country',
     source: q.Ref('classes/propositions'),
