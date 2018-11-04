@@ -15,9 +15,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import LoginCamera from '../components/LoginCamera'
-import SignupCamera from '../components/SignupCamera'
-import FancyLoader from '../components/FancyLoader'
+import LoginSignup from '../components/LoginSignup'
 
 const styles = theme => ({
   layout: {
@@ -154,9 +152,9 @@ class LandingPage extends Component {
     >
     Face to Face
     </Typography>
-    <Button variant="outlined" size="small" onClick={this.toggleLogin}>
+    {/* <Button variant="outlined" size="small" onClick={this.toggleLogin}>
     Log In
-    </Button>
+    </Button> */}
     </Toolbar>
     <main>
     {/* Main featured post */}
@@ -198,24 +196,12 @@ class LandingPage extends Component {
      : null
     }
 
-    {this.state.showLogin && <LoginCamera onMatchFound={() => {}} onMatchNotFound={() => {}} />}
-    {this.state.showSignup && (
-      <SignupCamera
-        onSuccess={() => {
-          console.log('Successfully signed up!')
-        }}
-      />
-    )}
+    <LoginSignup />
     {/* <Typography component="p">
     </Typography>  */}
     </CardContent>
     </div>
     <CardActions>
-    <Button onClick={this.toggleSignup}
-      size="medium" color="secondary" variant="outlined" className={classes.signUpButton}
-    >
-    Sign Up With Your Face
-    </Button>
     {/* <Button size="small" color="primary">
     Learn More
     </Button> */}
