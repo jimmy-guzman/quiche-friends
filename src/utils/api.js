@@ -1,6 +1,11 @@
 /* Api methods to call /functions */
 import axios from 'axios'
 
+/**
+ * Store the user we create or login as here on response.
+ */
+let __currentUserData;
+
 let currentLocation;
 const IPSTACK_API_KEY = '7e9a9d0b23a735947e564fd07d356803'
 
@@ -103,6 +108,9 @@ export const userCreate = (userData) => {
     method: 'POST'
   }).then(response => {
     return response.json()
+  }).then(user => {
+    __currentUserData = user;
+    return __currentUserData;
   })
 }
 
@@ -114,5 +122,12 @@ export const userLogin = (userId) => {
     method: 'POST'
   }).then(response => {
     return response.json()
+  }).then(user => {
+    __currentUserData = user;
+    return __currentUserData;
   })
+}
+
+export const currentUser = () => {
+  return __currentUserData;
 }
