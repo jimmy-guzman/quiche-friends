@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import LoginCamera from '../LoginCamera'
 import SignupCamera from '../SignupCamera'
 import * as api from '../../utils/api'
+import Button from '@material-ui/core/Button';
 
 class LoginSignup extends Component {
   state = {}
@@ -20,7 +21,11 @@ class LoginSignup extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.toggleLogin}>Log In</button>
+        <Button onClick={this.toggleLogin}
+          size="medium" color="secondary" variant="outlined"
+        >
+          Login
+        </Button>
         {this.state.showLogin && (
           <LoginCamera
             onMatchFound={conceptID => {
@@ -37,7 +42,11 @@ class LoginSignup extends Component {
         )}
         {this.state.error && <h1>{this.state.error}</h1>}
 
-        <button onClick={this.toggleSignup}>Sign Up</button>
+        <Button onClick={this.toggleSignup}
+          size="medium" color="secondary" variant="outlined"
+        >
+        Sign Up With Your Face
+        </Button>
         {this.state.showSignup && (
           <SignupCamera
             onSignupSuccess={state => {
