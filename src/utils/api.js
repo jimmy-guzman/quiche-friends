@@ -1,6 +1,11 @@
 /* Api methods to call /functions */
 import axios from 'axios'
 
+/**
+ * Store the user we create or login as here on response.
+ */
+let __currentUserData
+
 let currentLocation
 const IPSTACK_API_KEY = '7e9a9d0b23a735947e564fd07d356803'
 
@@ -73,8 +78,24 @@ export const createVote = data => {
   })
 }
 
-export const getProposition = () => {
-  return fetch('/.netlify/functions/proposition-read').then(response => {
+export const getProposition = propositionId => {
+  return fetch('/.netlify/functions/proposition-read', {
+    body: JSON.stringify({
+      propositionId
+    }),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export const getPropositionComments = propositionId => {
+  return fetch('/.netlify/functions/proposition-comments', {
+    body: JSON.stringify({
+      propositionId
+    }),
+    method: 'POST'
+  }).then(response => {
     return response.json()
   })
 }
@@ -92,4 +113,38 @@ export const searchPropositions = query => {
   }).then(response => {
     return response.json()
   })
+}
+
+export const userCreate = userData => {
+  return fetch('/.netlify/functions/user-create', {
+    body: JSON.stringify(userData),
+    method: 'POST'
+  })
+    .then(response => {
+      return response.json()
+    })
+    .then(user => {
+      __currentUserData = user
+      return __currentUserData
+    })
+}
+
+export const userLogin = userId => {
+  return fetch('/.netlify/functions/user-login', {
+    body: JSON.stringify({
+      userId
+    }),
+    method: 'POST'
+  })
+    .then(response => {
+      return response.json()
+    })
+    .then(user => {
+      __currentUserData = user
+      return __currentUserData
+    })
+}
+
+export const currentUser = () => {
+  return __currentUserData
 }
