@@ -48,43 +48,43 @@ async function createFaunaDB(key) {
   await client.query(q.Create(q.Ref('classes'), { name: 'votes' }));
   await client.query(q.Create(q.Ref('classes'), { name: 'comments' }));
 
-  // Create Indexes
+  Create Indexes
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_country',
     source: q.Ref('classes/propositions'),
-    terms: [{ field: ["country"] }]
+    terms: [{ field: ["data", "country"] }]
   }));
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_state',
     source: q.Ref('classes/propositions'),
-    terms: [{ field: ["state"] }]
+    terms: [{ field: ["data", "state"] }]
   }));
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_county',
     source: q.Ref('classes/propositions'),
-    terms: [{ field: ["county"] }]
+    terms: [{ field: ["data", "county"] }]
   }));
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_city',
     source: q.Ref('classes/propositions'),
-    terms: [{ field: ["city"] }]
+    terms: [{ field: ["data", "city"] }]
   }));
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'prop_by_is_election',
     source: q.Ref('classes/propositions'),
-    terms: [{ field: ["isElection"] }]
+    terms: [{ field: ["data", "isElection"] }]
   }));
 
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'comment_by_prop',
     source: q.Ref('classes/comments'),
-    terms: [{ field: ["propositionId"] }]
+    terms: [{ field: ["data", "propositionId"] }]
   }));
 
   await client.query(q.Create(q.Ref('indexes'), {
     name: 'vote_by_prop',
     source: q.Ref('classes/votes'),
-    terms: [{ field: ["propositionId"] }]
+    terms: [{ field: ["data", "propositionId"] }]
   }));
 
 }
