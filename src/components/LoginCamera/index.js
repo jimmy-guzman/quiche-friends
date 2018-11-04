@@ -17,6 +17,10 @@ const dataURLtoBlob = dataURL => {
 export default class Selfie extends React.Component {
   state = {}
 
+  componentDidMount() {
+    this.startCamera()
+  }
+
   startCamera = () => {
     this.setState({ isVideoStarted: true })
     navigator.mediaDevices
@@ -28,44 +32,44 @@ export default class Selfie extends React.Component {
       })
   }
 
-  takeSelfie = async () => {
-    const { canvas, video } = this
-    canvas.getContext('2d').drawImage(video, 0, 0)
-    const dataURL = canvas.toDataURL()
-    const blob = dataURLtoBlob(dataURL)
-    this.setState({ error: false })
-    await api
-      .cloudinaryUpload(blob)
-      .then(url => {
-        return api.clarifaiPredict(url)
-      })
-      .then(response => {
-        console.log('clarifai predict', response)
-        const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts')
-        console.log('concepts', concepts)
-
-        const matchingConcept = concepts.find(concept => {
-          return concept.value > 0.9
+    takeSelfie = async () => {
+      const { canvas, video } = this
+      canvas.getContext('2d').drawImage(video, 0, 0)
+      const dataURL = canvas.toDataURL()
+      const blob = dataURLtoBlob(dataURL)
+      this.setState({ error: false })
+      await api
+        .cloudinaryUpload(blob)
+        .then(url => {
+          return api.clarifaiPredict(url)
         })
-        if (matchingConcept) {
-          return this.props.onMatchFound(matchingConcept)
-        } else {
-          return this.props.onMatchNotFound(concepts)
-        }
-      })
-      .catch(err => {
-        console.log('lambda err', err)
-        this.setState({ error: true })
-        return err
-      })
-  }
+        .then(response => {
+          console.log('clarifai predict', response)
+          const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts')
+          console.log('concepts', concepts)
+
+          const matchingConcept = concepts.find(concept => {
+            return concept.value > 0.9
+          })
+          if (matchingConcept) {
+            return this.props.onMatchFound(matchingConcept)
+          } else {
+            return this.props.onMatchNotFound(concepts)
+          }
+        })
+        .catch(err => {
+          console.log('lambda err', err)
+          this.setState({ error: true })
+          return err
+        })
+    }
 
   render() {
     const { isVideoStarted } = this.state
     return (
       <div className="selfie-container">
         <video
-          onClick={isVideoStarted ? this.takeSelfie : this.startCamera}
+          onClick={this.takeSelfie}
           width={300}
           height={300}
           autoPlay
