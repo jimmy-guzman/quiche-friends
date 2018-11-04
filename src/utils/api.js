@@ -129,10 +129,10 @@ export const userCreate = userData => {
     })
 }
 
-export const userLogin = userId => {
+export const userLogin = (uuid) => {
   return fetch('/.netlify/functions/user-login', {
     body: JSON.stringify({
-      userId
+      uuid
     }),
     method: 'POST'
   })
