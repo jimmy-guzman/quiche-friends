@@ -11,52 +11,88 @@ if (!process.env.FAUNADB_SERVER_SECRET) {
   return false
 }
 
-console.log(chalk.cyan('Creating your FaunaDB Database...\n'))
-if (insideNetlify) {
-  // Run idempotent database creation
-  createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
-    console.log('Database created')
-  })
-} else {
-  console.log()
-  console.log('You can create fauna DB keys here: https://dashboard.fauna.com/db/keys')
-  console.log()
-  ask(chalk.bold('Enter your faunaDB server key'), (err, answer) => {
-    if (err) {
-      console.log(err)
-    }
-    if (!answer) {
-      console.log('Please supply a faunaDB server key')
-      process.exit(1)
-    }
-    createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
-      console.log('Database created')
+async function bootstrap() {
+  console.log(chalk.cyan('Creating your FaunaDB Database...\n'))
+  if (insideNetlify) {
+    // Run idempotent database creation
+    await createFaunaDB(process.env.FAUNADB_SERVER_SECRET);
+    console.log('Database created');
+  } else {
+    console.log()
+    console.log('You can create fauna DB keys here: https://dashboard.fauna.com/db/keys')
+    console.log()
+    ask(chalk.bold('Enter your faunaDB server key'), async (err, answer) => {
+      if (err) {
+        console.log(err)
+      }
+      if (!answer) {
+        console.log('Please supply a faunaDB server key')
+        process.exit(1)
+      }
+      await createFaunaDB(process.env.FAUNADB_SERVER_SECRET);
+      console.log('Database created');
     })
-  })
+  }
 }
 
 /* idempotent operation */
-function createFaunaDB(key) {
+async function createFaunaDB(key) {
   console.log('Create the database!')
   const client = new faunadb.Client({
     secret: key
   })
 
-  /* Based on your requirements, change the schema here */
-  return client.query(q.Create(q.Ref('classes'), { name: 'todos' }))
-    .then(() => {
-      return client.query(
-        q.Create(q.Ref('indexes'), {
-          name: 'all_todos',
-          source: q.Ref('classes/todos')
-        }))
-    }).catch((e) => {
-      // Database already exists
-      if (e.requestResult.statusCode === 400 && e.message === 'instance not unique') {
-        console.log('DB already exists')
-        throw e
-      }
-    })
+  // Create Tables
+  await client.query(q.Create(q.Ref('classes'), { name: 'users' }));
+  await client.query(q.Create(q.Ref('classes'), { name: 'propositions' }));
+  await client.query(q.Create(q.Ref('classes'), { name: 'votes' }));
+  await client.query(q.Create(q.Ref('classes'), { name: 'comments' }));
+
+  // Create Indexes
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'prop_by_country',
+    source: q.Ref('classes/propositions'),
+    terms: [{ field: ["data", "country"] }]
+  }));
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'prop_by_state',
+    source: q.Ref('classes/propositions'),
+    terms: [{ field: ["data", "state"] }]
+  }));
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'prop_by_county',
+    source: q.Ref('classes/propositions'),
+    terms: [{ field: ["data", "county"] }]
+  }));
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'prop_by_city',
+    source: q.Ref('classes/propositions'),
+    terms: [{ field: ["data", "city"] }]
+  }));
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'prop_by_is_election',
+    source: q.Ref('classes/propositions'),
+    terms: [{ field: ["data", "isElection"] }]
+  }));
+
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'user_by_uuid',
+    source: q.Ref('classes/users'),
+    terms: [{ field: ["data", "uuid"] }]
+  }));
+
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'comment_by_prop',
+    source: q.Ref('classes/comments'),
+    terms: [{ field: ["data", "propositionId"] }]
+  }));
+
+  await client.query(q.Create(q.Ref('indexes'), {
+    name: 'vote_by_prop',
+    source: q.Ref('classes/votes'),
+    terms: [{ field: ["data", "propositionId"] }]
+  }));
+
 }
 
 /* util methods */
@@ -80,3 +116,5 @@ function ask(question, callback) {
     callback(null, answer)
   })
 }
+
+bootstrap();
