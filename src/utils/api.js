@@ -1,6 +1,21 @@
 /* Api methods to call /functions */
 import axios from 'axios'
 
+let currentLocation;
+const IPSTACK_API_KEY = '7e9a9d0b23a735947e564fd07d356803'
+
+export const getLocation = async () => {
+  if (currentLocation) return currentLocation;
+  try {
+    const response = await fetch(`http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`)
+    currentLocation = await response.json();
+  } catch (err) {
+    console.error("Geolocating failed.")
+    console.error(err);
+  } 
+  return currentLocation;
+};
+
 export const cloudinaryUpload = blob => {
   const formData = new FormData()
   formData.append('file', blob, 'selfie.jpg')
@@ -27,6 +42,7 @@ export const clarifaiPredict = imageURL => {
 }
 
 export const createProposition = data => {
+  data.geolocation = currentLocation;
   return fetch('/.netlify/functions/proposition-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -35,7 +51,8 @@ export const createProposition = data => {
   })
 }
 
-export const createComment = data => {
+export const createComment = (data) => {
+  data.geolocation = currentLocation;
   return fetch('/.netlify/functions/comment-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -44,7 +61,8 @@ export const createComment = data => {
   })
 }
 
-export const createVote = data => {
+export const createVote = (data) => {
+  data.geolocation = currentLocation;
   return fetch('/.netlify/functions/vote-create', {
     body: JSON.stringify(data),
     method: 'POST'

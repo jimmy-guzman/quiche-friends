@@ -14,6 +14,7 @@ Proposition
     "Delete Twitter": 0, // votes aggregated on insert
     "Twitter for Life": 0 // votes aggregated on insert
   }
+  geolocation: {} // for when it was createdc
 }
 ```
 
