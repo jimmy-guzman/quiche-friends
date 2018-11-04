@@ -17,6 +17,10 @@ const dataURLtoBlob = dataURL => {
 export default class Selfie extends React.Component {
   state = {}
 
+  componentDidMount() {
+    this.startCamera()
+  }
+
   startCamera = () => {
     this.setState({ isVideoStarted: true })
     navigator.mediaDevices
@@ -61,19 +65,16 @@ export default class Selfie extends React.Component {
   }
 
   render() {
-    const { isVideoStarted } = this.state
     return (
       <div className="selfie-container">
         <video
-          onClick={isVideoStarted ? this.takeSelfie : this.startCamera}
+          onClick={this.takeSelfie}
           width={300}
           height={300}
           autoPlay
           ref={node => (this.video = node)}
         />
-        <button onClick={isVideoStarted ? this.takeSelfie : this.startCamera}>
-          {isVideoStarted ? 'Take Selfie' : 'Start Camera'}
-        </button>
+        <button onClick={this.takeSelfie}>{'Take Selfie'}</button>
         {this.state.error && <div>Something went wrong. Please try again.</div>}
         <canvas
           width={1280}
