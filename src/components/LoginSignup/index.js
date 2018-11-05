@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import LoginCamera from '../LoginCamera'
 import SignupCamera from '../SignupCamera'
 import * as api from '../../utils/api'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
 
 class LoginSignup extends Component {
   state = {}
@@ -21,9 +21,7 @@ class LoginSignup extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.toggleLogin}
-          size="medium" color="secondary" variant="outlined"
-        >
+        <Button onClick={this.toggleLogin} size="medium" color="secondary" variant="outlined">
           Login
         </Button>
         {this.state.showLogin && (
@@ -31,7 +29,7 @@ class LoginSignup extends Component {
             onMatchFound={conceptID => {
               this.setState({ error: false })
               api.userLogin(conceptID).then(response => {
-                localStorage.setItem('user', response)
+                localStorage.setItem('user', JSON.stringify(response))
                 this.props.history.push('/home')
               })
             }}
@@ -40,23 +38,21 @@ class LoginSignup extends Component {
             }}
           />
         )}
-        {this.state.error && <h1>{this.state.error}</h1>}
+        {this.state.error && <h2 style={{ color: 'black' }}>{this.state.error}</h2>}
 
-        <Button onClick={this.toggleSignup}
-          size="medium" color="secondary" variant="outlined"
-        >
-        Sign Up With Your Face
+        <Button onClick={this.toggleSignup} size="medium" color="secondary" variant="outlined">
+          Sign Up With Your Face
         </Button>
         {this.state.showSignup && (
           <SignupCamera
             onSignupSuccess={state => {
               api
                 .userCreate({
-                  conceptID: state.conceptID,
+                  uuid: state.conceptID,
                   profileImage: state.profileImage
                 })
                 .then(response => {
-                  localStorage.setItem('user', response)
+                  localStorage.setItem('user', JSON.stringify(response))
                   this.props.history.push('/home')
                 })
             }}

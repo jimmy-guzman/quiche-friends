@@ -196,7 +196,7 @@ class LandingPage extends Component {
      : null
     }
 
-    <LoginSignup />
+    <LoginSignup history={this.props.history} />
     {/* <Typography component="p">
     </Typography>  */}
     </CardContent>
