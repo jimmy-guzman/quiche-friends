@@ -15,8 +15,8 @@ async function bootstrap() {
   console.log(chalk.cyan('Creating your FaunaDB Database...\n'))
   if (insideNetlify) {
     // Run idempotent database creation
-    await createFaunaDB(process.env.FAUNADB_SERVER_SECRET);
-    console.log('Database created');
+    await createFaunaDB(process.env.FAUNADB_SERVER_SECRET)
+    console.log('Database created')
   } else {
     console.log()
     console.log('You can create fauna DB keys here: https://dashboard.fauna.com/db/keys')
@@ -29,8 +29,8 @@ async function bootstrap() {
         console.log('Please supply a faunaDB server key')
         process.exit(1)
       }
-      await createFaunaDB(process.env.FAUNADB_SERVER_SECRET);
-      console.log('Database created');
+      await createFaunaDB(process.env.FAUNADB_SERVER_SECRET)
+      console.log('Database created')
     })
   }
 }
@@ -43,56 +43,71 @@ async function createFaunaDB(key) {
   })
 
   // Create Tables
-  await client.query(q.Create(q.Ref('classes'), { name: 'users' }));
-  await client.query(q.Create(q.Ref('classes'), { name: 'propositions' }));
-  await client.query(q.Create(q.Ref('classes'), { name: 'votes' }));
-  await client.query(q.Create(q.Ref('classes'), { name: 'comments' }));
+  await client.query(q.Create(q.Ref('classes'), { name: 'users' }))
+  await client.query(q.Create(q.Ref('classes'), { name: 'propositions' }))
+  await client.query(q.Create(q.Ref('classes'), { name: 'votes' }))
+  await client.query(q.Create(q.Ref('classes'), { name: 'comments' }))
 
   // Create Indexes
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'prop_by_country',
-    source: q.Ref('classes/propositions'),
-    terms: [{ field: ["data", "country"] }]
-  }));
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'prop_by_state',
-    source: q.Ref('classes/propositions'),
-    terms: [{ field: ["data", "state"] }]
-  }));
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'prop_by_county',
-    source: q.Ref('classes/propositions'),
-    terms: [{ field: ["data", "county"] }]
-  }));
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'prop_by_city',
-    source: q.Ref('classes/propositions'),
-    terms: [{ field: ["data", "city"] }]
-  }));
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'prop_by_is_election',
-    source: q.Ref('classes/propositions'),
-    terms: [{ field: ["data", "isElection"] }]
-  }));
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'prop_by_country',
+      source: q.Ref('classes/propositions'),
+      terms: [{ field: ['data', 'country'] }]
+    })
+  )
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'prop_by_state',
+      source: q.Ref('classes/propositions'),
+      terms: [{ field: ['data', 'state'] }]
+    })
+  )
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'prop_by_county',
+      source: q.Ref('classes/propositions'),
+      terms: [{ field: ['data', 'county'] }]
+    })
+  )
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'prop_by_city',
+      source: q.Ref('classes/propositions'),
+      terms: [{ field: ['data', 'city'] }]
+    })
+  )
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'prop_by_is_election',
+      source: q.Ref('classes/propositions'),
+      terms: [{ field: ['data', 'isElection'] }]
+    })
+  )
 
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'user_by_uuid',
-    source: q.Ref('classes/users'),
-    terms: [{ field: ["data", "uuid"] }]
-  }));
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'user_by_uuid',
+      source: q.Ref('classes/users'),
+      terms: [{ field: ['data', 'uuid'] }]
+    })
+  )
 
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'comment_by_prop',
-    source: q.Ref('classes/comments'),
-    terms: [{ field: ["data", "propositionId"] }]
-  }));
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'comment_by_prop',
+      source: q.Ref('classes/comments'),
+      terms: [{ field: ['data', 'propositionId'] }]
+    })
+  )
 
-  await client.query(q.Create(q.Ref('indexes'), {
-    name: 'vote_by_prop',
-    source: q.Ref('classes/votes'),
-    terms: [{ field: ["data", "propositionId"] }]
-  }));
-
+  await client.query(
+    q.Create(q.Ref('indexes'), {
+      name: 'vote_by_prop',
+      source: q.Ref('classes/votes'),
+      terms: [{ field: ['data', 'propositionId'] }]
+    })
+  )
 }
 
 /* util methods */
@@ -117,4 +132,4 @@ function ask(question, callback) {
   })
 }
 
-bootstrap();
+bootstrap()
