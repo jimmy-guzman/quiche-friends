@@ -16,7 +16,7 @@ const dataURLtoBlob = dataURL => {
   return new Blob([new Uint8Array(array)], { type: 'application/octet-stream' })
 }
 
-const MAX_IMAGES = 5
+const MAX_IMAGES = 10
 
 export default class Selfie extends React.Component {
   state = {
@@ -50,10 +50,10 @@ export default class Selfie extends React.Component {
     const imageURL = await api.cloudinaryUpload(blob)
     const matchingConcept = await api.clarifaiPredict(imageURL).then(response => {
       console.log('clarifai predict', response)
-      const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts')
+      const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts', [])
       console.log('concepts', concepts)
       const matchingConcept = concepts.find(concept => {
-        return concept.value > 0.9
+        return concept.value > 0.8
       })
       return matchingConcept
     })
@@ -77,7 +77,12 @@ export default class Selfie extends React.Component {
         const { imageCount } = this.state
         if (imageCount > MAX_IMAGES) {
           return api.clarifaiTrain().then(() => {
-            this.setState({ signupDone: true, signupStarted: false, error: false })
+            this.setState({
+              profileImage: imageURL,
+              signupDone: true,
+              signupStarted: false,
+              error: false
+            })
             this.props.onSignupSuccess(this.state)
           })
         }
@@ -96,7 +101,7 @@ export default class Selfie extends React.Component {
   render() {
     const { imageCount, signupStarted } = this.state
     return (
-      <div className="selfie-container">
+      <div className="selfie-container" style={{ color: 'black' }}>
         <video
           onClick={this.takeSelfie}
           width={300}
@@ -104,16 +109,16 @@ export default class Selfie extends React.Component {
           autoPlay
           ref={node => (this.video = node)}
         />
-        <p>
-          We need to get multiple angles of your face to make ths work. Please turn your face around
-          until the process is complete. :)
+        <p style={{ color: 'black' }}>
+          We need to get multiple angles of your face to make this work. Please turn your face
+          around until the process is complete. :)
         </p>
         {!this.state.signupStarted && <button onClick={this.startSignup}>Start Sign Up</button>}
         {typeof this.state.error === 'string' && <div>{this.state.error}</div>}
         {this.state.error && <div>Something went wrong. Please try again.</div>}
         <canvas
-          width={1280}
-          height={720}
+          width={600}
+          height={600}
           style={{ display: 'none' }}
           ref={node => (this.canvas = node)}
         />
@@ -132,7 +137,7 @@ export default class Selfie extends React.Component {
           </div>
         )}
         {signupStarted && (
-          <p>
+          <p style={{ color: 'black' }}>
             {imageCount + 1}/{MAX_IMAGES + 2}
           </p>
         )}
@@ -141,7 +146,7 @@ export default class Selfie extends React.Component {
             <FancyLoader num={2} />
           </div>
         )}
-        {this.state.signupDone && <h1>DONE!</h1>}
+        {this.state.signupDone && <h2 style={{ color: 'black' }}>DONE!</h2>}
       </div>
     )
   }
