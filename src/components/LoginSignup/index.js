@@ -3,7 +3,6 @@ import LoginCamera from '../LoginCamera'
 import SignupCamera from '../SignupCamera'
 import * as api from '../../utils/api'
 import Button from '@material-ui/core/Button'
-import { browserHistory } from 'react-router-dom'
 
 class LoginSignup extends Component {
   state = {}
@@ -31,7 +30,7 @@ class LoginSignup extends Component {
               this.setState({ error: false })
               api.userLogin(conceptID).then(response => {
                 localStorage.setItem('user', response)
-                browserHistory.push('/home')
+                this.props.history.push('/home')
               })
             }}
             onMatchNotFound={() => {
@@ -54,7 +53,7 @@ class LoginSignup extends Component {
                 })
                 .then(response => {
                   localStorage.setItem('user', response)
-                  browserHistory.push('/home')
+                  this.props.history.push('/home')
                 })
             }}
           />
