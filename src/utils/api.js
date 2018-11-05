@@ -13,7 +13,7 @@ export const getLocation = async () => {
   if (currentLocation) return currentLocation
   try {
     const response = await fetch(
-      `http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`
+      `https://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}&format=1`
     )
     currentLocation = await response.json()
   } catch (err) {
