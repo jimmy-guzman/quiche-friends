@@ -48,7 +48,7 @@ class LoginSignup extends Component {
             onSignupSuccess={state => {
               api
                 .userCreate({
-                  conceptID: state.conceptID,
+                  uuid: state.conceptID,
                   profileImage: state.profileImage
                 })
                 .then(response => {

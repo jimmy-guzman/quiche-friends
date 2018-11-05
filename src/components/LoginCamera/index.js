@@ -49,7 +49,7 @@ export default class Selfie extends React.Component {
         console.log('concepts', concepts)
 
         const matchingConcept = concepts.find(concept => {
-          return concept.value > 0.9
+          return concept.value > 0.8
         })
         if (matchingConcept) {
           return this.props.onMatchFound(matchingConcept.id)

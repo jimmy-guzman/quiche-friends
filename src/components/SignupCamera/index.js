@@ -16,7 +16,7 @@ const dataURLtoBlob = dataURL => {
   return new Blob([new Uint8Array(array)], { type: 'application/octet-stream' })
 }
 
-const MAX_IMAGES = 5
+const MAX_IMAGES = 10
 
 export default class Selfie extends React.Component {
   state = {
@@ -53,7 +53,7 @@ export default class Selfie extends React.Component {
       const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts')
       console.log('concepts', concepts)
       const matchingConcept = concepts.find(concept => {
-        return concept.value > 0.9
+        return concept.value > 0.8
       })
       return matchingConcept
     })
