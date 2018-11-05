@@ -86,7 +86,7 @@ export const createProposition = data => {
 }
 
 export const createComment = data => {
-  data.geolocation = currentLocation
+  // data.geolocation = currentLocation
   return fetch('/.netlify/functions/comment-create', {
     body: JSON.stringify(data),
     method: 'POST'

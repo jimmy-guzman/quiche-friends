@@ -22,7 +22,7 @@ class Home extends PureComponent {
   async fetchAllPropositions() {
     const response = await searchPropositions({ city: this.state.userLocation.city })
 
-    const propostions = response.map(r => ({ data: r.data, id: r.ts }))
+    const propostions = response.map(r => ({ data: r.data, id: r.ref['@ref'].id }))
 
     this.setState({ propostions })
   }
