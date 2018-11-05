@@ -29,7 +29,7 @@ class LoginSignup extends Component {
             onMatchFound={conceptID => {
               this.setState({ error: false })
               api.userLogin(conceptID).then(response => {
-                localStorage.setItem('user', response)
+                localStorage.setItem('user', JSON.stringify(response))
                 this.props.history.push('/home')
               })
             }}
@@ -52,7 +52,7 @@ class LoginSignup extends Component {
                   profileImage: state.profileImage
                 })
                 .then(response => {
-                  localStorage.setItem('user', response)
+                  localStorage.setItem('user', JSON.stringify(response))
                   this.props.history.push('/home')
                 })
             }}
