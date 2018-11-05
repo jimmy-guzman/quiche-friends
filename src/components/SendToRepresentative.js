@@ -1,76 +1,90 @@
-import React, { Component } from 'react';
-import _isArray from 'lodash/isArray';
+import React, { Component } from 'react'
+import _isArray from 'lodash/isArray'
 
-export default class SendToRepresentative extends Component {
-    // constructor(props){
-    //     super(props)
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
-        // this._replyto = React.createRef()
-        // this._cc = React.createRef()
-        // this._subject = React.createRef()
-        // this.message = React.createRef()
-    // }
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 250
+  }
+})
+class SendToRepresentative extends Component {
+  state = {
+    email: '',
+    subject: '',
+    message: ''
+  }
 
-    // handleSubmit = (e) => {
-    //     e.preventDefault()
-    //     console.dir(this._replyto.current.value)
-    //     // fetch("https://formspree.io/mwqnlrrm", {
-    //     //     method: "POST", body: JSON.stringify({
-    //     //         _replyto: this._replyto.current.value,
-    //     //         _cc: this._cc.current.value,
-    //     //         _subject: this._subject.current.value,
-    //     //         message: this.message.current.value      
-    //     //     })
-    //     // })  
-    //     fetch("https://formspree.io/mwqnlrrm", {
-    //         method: "POST", body: JSON.stringify({
-    //             headers: {"Content-Type": "application/json ; charset=utf-8"},
-    //             message: "hello"      
-    //         })
-    //     })  
-    //  }
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    })
+  }
 
+  render() {
+    const { representativeEmail } = this.props
+    const ccEmails = _isArray(representativeEmail)
+      ? representativeEmail.join(',')
+      : representativeEmail
+    const currentLocation = window.location.href
+    console.log(currentLocation)
+    return (
+      <form
+        action="https://formspree.io/xrlakwdx"
+        method="POST"
+        // ref={this.form}
+        // onSubmit={(e)=>this.handleSubmit(e)}
+      >
+        {/* this should be able to take an array of email addresses and return it as a string separated by commas  */}
+        <input type="hidden" name="_cc" value={ccEmails} ref={this._cc} />
 
-    render() {
-        const { representativeEmail } = this.props;
-        const ccEmails = _isArray(representativeEmail) ? representativeEmail.join(',') : representativeEmail;
-        const currentLocation = window.location.href;
+        {/* URL should load dynamic URL of page user is on */}
+        <input type="hidden" name="_next" value={currentLocation} />
 
-        return (
-            <form
-                action="https://formspree.io/mwqnlrrm"
-                method="POST"
-                // ref={this.form}
-                // onSubmit={(e)=>this.handleSubmit(e)}
-            >
+        <TextField
+          label="Email"
+          className={this.props.classes.textField}
+          value={this.state.email}
+          onChange={this.handleChange('email')}
+          margin="normal"
+          name="_replyto"
+        />
 
-            {/* this should be able to take an array of email addresses and return it as a string separated by commas  */}
-                <input type="hidden" name="_cc" value={ccEmails} ref={this._cc}/>
+        {/* should autofill with the issue you are e-mailing about */}
 
-                {/* URL should load dynamic URL of page user is on */}
-                <input type="hidden" name="_next" value={currentLocation} />
-                
-                <label>
-                    Your email:
-                    {/* this should be autofilled with a verified user's email address */}
-                    <input type="text" name="_replyto" ref={this._replyto}/>
-                </label>
+        <TextField
+          label="Subject"
+          className={this.props.classes.textField}
+          value={this.state.subject}
+          onChange={this.handleChange('subject')}
+          margin="normal"
+          name="_subject"
+        />
 
-                {/* should autofill with the issue you are e-mailing about */}
-                <label>
-                    Subject:
-                    <input type="text" name="_subject" value="A note from your constituent" ref={this._subject} />
-                </label>
+        {/* should autofill with the issue you are e-mailing about */}
+        <TextField
+          label="message"
+          className={this.props.classes.textField}
+          value={this.state.message}
+          onChange={this.handleChange('message')}
+          margin="normal"
+          name="message"
+        />
 
-                {/* should autofill with the issue you are e-mailing about */}
-                <label>
-                Your message:
-                <textarea name="message" ref={this.message}></textarea>
-                </label>
-                
-                <button type="submit">Send</button>
-            </form>
-        );
-    
-    }
+        <Button size="small" variant="text" type="submit">
+          Send
+        </Button>
+      </form>
+    )
+  }
 }
+
+export default withStyles(styles)(SendToRepresentative)

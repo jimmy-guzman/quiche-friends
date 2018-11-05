@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
+import SendToRepresentative from '../components/SendToRepresentative'
 
 import { getProposition, getPropositionComments, createComment } from '../utils/api'
 
@@ -107,6 +108,7 @@ class Proposition extends Component {
             Submit
           </Button>
         </form>
+        <SendToRepresentative />
       </div>
     )
   }
