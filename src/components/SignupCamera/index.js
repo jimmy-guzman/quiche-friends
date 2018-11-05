@@ -96,7 +96,7 @@ export default class Selfie extends React.Component {
   render() {
     const { imageCount, signupStarted } = this.state
     return (
-      <div className="selfie-container">
+      <div className="selfie-container" style={{ color: 'black' }}>
         <video
           onClick={this.takeSelfie}
           width={300}
