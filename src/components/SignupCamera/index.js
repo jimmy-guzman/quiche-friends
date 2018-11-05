@@ -104,9 +104,9 @@ export default class Selfie extends React.Component {
           autoPlay
           ref={node => (this.video = node)}
         />
-        <p>
-          We need to get multiple angles of your face to make ths work. Please turn your face around
-          until the process is complete. :)
+        <p style={{ color: 'black' }}>
+          We need to get multiple angles of your face to make this work. Please turn your face
+          around until the process is complete. :)
         </p>
         {!this.state.signupStarted && <button onClick={this.startSignup}>Start Sign Up</button>}
         {typeof this.state.error === 'string' && <div>{this.state.error}</div>}
@@ -132,7 +132,7 @@ export default class Selfie extends React.Component {
           </div>
         )}
         {signupStarted && (
-          <p>
+          <p style={{ color: 'black' }}>
             {imageCount + 1}/{MAX_IMAGES + 2}
           </p>
         )}
@@ -141,7 +141,7 @@ export default class Selfie extends React.Component {
             <FancyLoader num={2} />
           </div>
         )}
-        {this.state.signupDone && <h1>DONE!</h1>}
+        {this.state.signupDone && <h2 style={{ color: 'black' }}>DONE!</h2>}
       </div>
     )
   }

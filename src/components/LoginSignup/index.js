@@ -38,7 +38,7 @@ class LoginSignup extends Component {
             }}
           />
         )}
-        {this.state.error && <h1>{this.state.error}</h1>}
+        {this.state.error && <h2 style={{ color: 'black' }}>{this.state.error}</h2>}
 
         <Button onClick={this.toggleSignup} size="medium" color="secondary" variant="outlined">
           Sign Up With Your Face
