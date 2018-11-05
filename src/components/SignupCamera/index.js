@@ -50,7 +50,7 @@ export default class Selfie extends React.Component {
     const imageURL = await api.cloudinaryUpload(blob)
     const matchingConcept = await api.clarifaiPredict(imageURL).then(response => {
       console.log('clarifai predict', response)
-      const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts')
+      const concepts = _.get(response, 'outputs[0].data.regions[0].data.face.identity.concepts', [])
       console.log('concepts', concepts)
       const matchingConcept = concepts.find(concept => {
         return concept.value > 0.8
@@ -117,8 +117,8 @@ export default class Selfie extends React.Component {
         {typeof this.state.error === 'string' && <div>{this.state.error}</div>}
         {this.state.error && <div>Something went wrong. Please try again.</div>}
         <canvas
-          width={1280}
-          height={720}
+          width={600}
+          height={600}
           style={{ display: 'none' }}
           ref={node => (this.canvas = node)}
         />

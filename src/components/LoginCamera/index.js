@@ -77,8 +77,8 @@ export default class Selfie extends React.Component {
         <button onClick={this.takeSelfie}>{'Take Selfie'}</button>
         {this.state.error && <div>Something went wrong. Please try again.</div>}
         <canvas
-          width={1280}
-          height={720}
+          width={600}
+          height={600}
           style={{ display: 'none' }}
           ref={node => (this.canvas = node)}
         />

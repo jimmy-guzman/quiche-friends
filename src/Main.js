@@ -4,6 +4,9 @@ import { Switch, Route } from 'react-router-dom'
 import { Home, Proposition, SignUp, LandingPage, CreateProposition } from './Pages'
 
 class Main extends Component {
+  componentDidMount() {
+    localStorage.removeItem('user')
+  }
   render() {
     return (
       <Fragment>
