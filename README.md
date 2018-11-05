@@ -1,4 +1,4 @@
-# Netlify + FaunaDB &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/fauna-one-click&stack=fauna"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
+# Face-to-Face
 
 Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://www.netlify.com/docs/functions/)
 
@@ -19,10 +19,7 @@ Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://
 
 ## About this application
 
-This application is using [React](https://reactjs.org/) for the frontend, [Netlify Functions](https://www.netlify.com/docs/functions/) for API calls, and [FaunaDB](https://fauna.com/) as the backing database.
-
-![faunadb netlify](https://user-images.githubusercontent.com/532272/42067494-5c4c2b94-7afb-11e8-91b4-0bef66d85584.png)
-
+This application is using [React](https://reactjs.org/) for the frontend, [Netlify Functions](https://www.netlify.com/docs/functions/) for API calls,  [FaunaDB](https://fauna.com/) as the backing database, [Clarifai](https://clarifai.com/) for machine learning and face authentication.
 ## Setup & Run Locally
 
 1. Clone down the repository
@@ -50,6 +47,8 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/fauna-one-click&stack=fauna)
 
 ## Tutorial
+
+(https://www.dropbox.com/s/p10yyl1ag3d5m6k/Screenshot%202018-11-04%2017.44.46.png?dl=0)
 
 ### Background
 
