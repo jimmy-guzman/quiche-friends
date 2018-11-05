@@ -77,7 +77,12 @@ export default class Selfie extends React.Component {
         const { imageCount } = this.state
         if (imageCount > MAX_IMAGES) {
           return api.clarifaiTrain().then(() => {
-            this.setState({ signupDone: true, signupStarted: false, error: false })
+            this.setState({
+              profileImage: imageURL,
+              signupDone: true,
+              signupStarted: false,
+              error: false
+            })
             this.props.onSignupSuccess(this.state)
           })
         }
