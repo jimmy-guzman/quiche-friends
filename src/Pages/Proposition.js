@@ -108,7 +108,7 @@ class Proposition extends Component {
             Submit
           </Button>
         </form>
-        <SendToRepresentative />
+        <SendToRepresentative representativeEmail="senator@feinstein.senate.gov" />
       </div>
     )
   }

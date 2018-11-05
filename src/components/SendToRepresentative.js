@@ -35,10 +35,10 @@ class SendToRepresentative extends Component {
       ? representativeEmail.join(',')
       : representativeEmail
     const currentLocation = window.location.href
-    console.log(currentLocation)
+
     return (
       <form
-        action="https://formspree.io/xrlakwdx"
+        action="https://formspree.io/mvqbredx"
         method="POST"
         // ref={this.form}
         // onSubmit={(e)=>this.handleSubmit(e)}
