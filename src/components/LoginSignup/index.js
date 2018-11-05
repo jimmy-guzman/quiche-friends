@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import LoginCamera from '../LoginCamera'
 import SignupCamera from '../SignupCamera'
 import * as api from '../../utils/api'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
+import { browserHistory } from 'react-router-dom'
 
 class LoginSignup extends Component {
   state = {}
@@ -21,9 +22,7 @@ class LoginSignup extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.toggleLogin}
-          size="medium" color="secondary" variant="outlined"
-        >
+        <Button onClick={this.toggleLogin} size="medium" color="secondary" variant="outlined">
           Login
         </Button>
         {this.state.showLogin && (
@@ -32,7 +31,7 @@ class LoginSignup extends Component {
               this.setState({ error: false })
               api.userLogin(conceptID).then(response => {
                 localStorage.setItem('user', response)
-                this.props.history.push('/home')
+                browserHistory.push('/home')
               })
             }}
             onMatchNotFound={() => {
@@ -42,10 +41,8 @@ class LoginSignup extends Component {
         )}
         {this.state.error && <h1>{this.state.error}</h1>}
 
-        <Button onClick={this.toggleSignup}
-          size="medium" color="secondary" variant="outlined"
-        >
-        Sign Up With Your Face
+        <Button onClick={this.toggleSignup} size="medium" color="secondary" variant="outlined">
+          Sign Up With Your Face
         </Button>
         {this.state.showSignup && (
           <SignupCamera
@@ -57,7 +54,7 @@ class LoginSignup extends Component {
                 })
                 .then(response => {
                   localStorage.setItem('user', response)
-                  this.props.history.push('/home')
+                  browserHistory.push('/home')
                 })
             }}
           />
